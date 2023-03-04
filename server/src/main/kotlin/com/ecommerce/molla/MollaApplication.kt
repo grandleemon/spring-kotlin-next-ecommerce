@@ -8,5 +8,4 @@ class MollaApplication
 
 fun main(args: Array<String>) {
 	runApplication<MollaApplication>(*args)
-	println("server started");
 }
