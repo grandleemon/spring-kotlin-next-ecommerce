@@ -7,14 +7,14 @@ data class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Int,
-    val name: String,
-    val price: Int,
-    val sale_price: Int,
-    val ratings: Int,
-    val review: Int,
-    val sold: Int,
-    val stock: Int,
-    val new: Boolean,
-    val slug: String,
-    val sex: String
+    var name: String,
+    var price: Int,
+    var sale_price: Int,
+    var ratings: Int,
+    var review: Int,
+    var sold: Int,
+    var stock: Int,
+    var new: Boolean,
+    var slug: String,
+    var sex: String
 )
