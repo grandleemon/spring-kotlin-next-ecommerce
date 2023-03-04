@@ -1,11 +1,11 @@
-package com.ecommerce.demo
+package com.ecommerce.molla
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class GrandleemonApplication
+class MollaApplication
 
 fun main(args: Array<String>) {
-	runApplication<GrandleemonApplication>(*args)
+	runApplication<MollaApplication>(*args)
 }

@@ -1,10 +1,10 @@
-package com.ecommerce.demo
+package com.ecommerce.molla
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class GrandleemonApplicationTests {
+class MollaApplicationTests {
 
 	@Test
 	fun contextLoads() {
