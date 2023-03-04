@@ -21,7 +21,7 @@ class CategoryController(private val categoryService: CategoryService) {
     fun createCategory(@RequestBody category: Category): Category = categoryService.createCategory(category)
 
     @PutMapping("{id}")
-    fun updateCategory(@PathVariable id: Int, category: Category): Category = categoryService.updateCategory(id, category)
+    fun updateCategory(@PathVariable id: Int, @RequestBody category: Category): Category = categoryService.updateCategory(id, category)
 
     @DeleteMapping("{id}")
     fun deleteCategory(@PathVariable id: Int): Category = categoryService.deleteCategory(id)

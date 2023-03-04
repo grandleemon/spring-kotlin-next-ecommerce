@@ -20,9 +20,9 @@ class ProductController(private val productService: ProductService) {
     @PostMapping
     fun createProduct(@RequestBody product: Product): Product = productService.createProduct(product)
 
-    @PutMapping("{id}")
-    fun updateProduct(@PathVariable id: Int, product: Product): Product = productService.updateProduct(id, product)
+    @PutMapping("/{id}")
+    fun updateProduct(@PathVariable("id") id: Int, @RequestBody product: Product): Product = productService.updateProduct(id, product)
 
-    @DeleteMapping("{id}")
-    fun deleteProduct(@PathVariable id: Int): Product = productService.deleteProduct(id)
+    @DeleteMapping("/{id}")
+    fun deleteProduct(@PathVariable("id") id: Int): Product = productService.deleteProduct(id)
 }
