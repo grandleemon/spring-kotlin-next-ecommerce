@@ -7,6 +7,6 @@ import javax.persistence.Id
 data class Brand(
     @Id
     val id: Int,
-    val name: String,
-    val slug: String
+    var name: String,
+    var slug: String
 )
