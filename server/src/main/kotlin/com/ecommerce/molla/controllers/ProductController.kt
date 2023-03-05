@@ -1,5 +1,6 @@
 package com.ecommerce.molla.controllers
 
+import com.ecommerce.molla.models.Brand
 import com.ecommerce.molla.models.Category
 import com.ecommerce.molla.models.Product
 import com.ecommerce.molla.services.ProductService
@@ -30,6 +31,16 @@ class ProductController(private val productService: ProductService) {
     @DeleteMapping("{id}/categories")
     fun deleteCategory(@PathVariable("id") id: Int, @RequestBody categories: Category): ResponseEntity<Product> {
         return productService.deleteCategory(id, categories)
+    }
+
+    @PostMapping("{id}/brands")
+    fun addBrand(@PathVariable("id") id: Int, @RequestBody brand: Brand): ResponseEntity<Product> {
+        return productService.addBrand(id, brand)
+    }
+
+    @DeleteMapping("{id}/brands")
+    fun deleteBrand(@PathVariable("id") id: Int, @RequestBody brands: Brand): ResponseEntity<Product> {
+        return productService.deleteBrand(id, brands)
     }
 
     @PutMapping("/{id}")

@@ -24,5 +24,13 @@ data class Product (
         joinColumns = [JoinColumn(name = "product_id")],
         inverseJoinColumns = [JoinColumn(name = "category_id")]
     )
-    val categories: MutableSet<Category>
+    val categories: MutableSet<Category>,
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
+    @JoinTable(
+        name = "product_brand",
+        joinColumns = [JoinColumn(name = "product_id")],
+        inverseJoinColumns = [JoinColumn(name = "brand_id")]
+    )
+    val brands: MutableSet<Brand>
 )

@@ -1,7 +1,9 @@
 package com.ecommerce.molla.services
 
+import com.ecommerce.molla.models.Brand
 import com.ecommerce.molla.models.Category
 import com.ecommerce.molla.models.Product
+import com.ecommerce.molla.repositories.BrandRepository
 import com.ecommerce.molla.repositories.CategoryRepository
 import com.ecommerce.molla.repositories.ProductRepository
 import org.springframework.http.HttpStatus
@@ -12,7 +14,8 @@ import java.util.*
 @Service
 class ProductService(
     private val productRepository: ProductRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val brandRepository: BrandRepository
     ) {
     fun getAllProducts(): List<Product> = productRepository.findAll();
 
@@ -28,6 +31,21 @@ class ProductService(
         } else {
             categoryRepository.save(category)
             product.categories.add(category)
+            productRepository.save(product)
+            ResponseEntity<Product>(product, HttpStatus.CREATED)
+        }
+    }
+
+    fun addBrand(id: Int, brand: Brand): ResponseEntity<Product> {
+        val product: Product = productRepository.findById(id).orElseThrow()
+        val brandToFind: Optional<Category> = categoryRepository.findById(brand.id)
+        return if(brandToFind.isPresent) {
+            product.categories.add(brandToFind.get())
+            productRepository.save(product)
+            ResponseEntity<Product>(product, HttpStatus.CREATED)
+        } else {
+            brandRepository.save(brand)
+            product.brands.add(brand)
             productRepository.save(product)
             ResponseEntity<Product>(product, HttpStatus.CREATED)
         }
@@ -64,6 +82,15 @@ class ProductService(
         val product = productRepository.findById(id).orElseThrow()
 
         product.categories.remove(categories)
+        productRepository.save(product)
+
+        return ResponseEntity(product, HttpStatus.OK)
+    }
+
+    fun deleteBrand(id: Int, brands: Brand): ResponseEntity<Product> {
+        val product = productRepository.findById(id).orElseThrow()
+
+        product.brands.remove(brands)
         productRepository.save(product)
 
         return ResponseEntity(product, HttpStatus.OK)
