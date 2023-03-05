@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api/v1/categories")
 class CategoriesController(private val categoriesService: CategoriesService) {
     @GetMapping
-    fun getAllCategories(): List<Category> = categoriesService.getAllCategories()
+    fun getAllCategories() = categoriesService.getAllCategories()
 
     @PostMapping
-    fun createCategory(@RequestBody category: Category): Category = categoriesService.createCategory(category)
+    fun createCategory(@RequestBody category: Category) = categoriesService.createCategory(category)
 
     @PutMapping("{id}")
-    fun updateCategory(@PathVariable id: Int, @RequestBody category: Category): Category = categoriesService.updateCategory(id, category)
+    fun updateCategory(@PathVariable id: Int, @RequestBody category: Category) = categoriesService.updateCategory(id, category)
 
     @DeleteMapping("{id}")
-    fun deleteCategory(@PathVariable id: Int): Category = categoriesService.deleteCategory(id)
+    fun deleteCategory(@PathVariable id: Int) = categoriesService.deleteCategory(id)
 }

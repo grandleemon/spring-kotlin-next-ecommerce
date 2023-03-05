@@ -19,7 +19,7 @@ class BrandsService(private val brandsRepository: BrandsRepository) {
     }
 
     fun updateBrand(id: Int, brand: Brand): ResponseEntity<Brand> {
-        val brandToUpdate = brandsRepository.findById(id).orElseThrow{ RuntimeException("Not found Tutorial with id = \"$id\"") }
+        val brandToUpdate = brandsRepository.findById(id).orElseThrow{ RuntimeException("Not found Brand with id = \"$id\"") }
 
         brandToUpdate.name = brand.name
         brandToUpdate.slug = brand.slug
