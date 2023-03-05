@@ -1,5 +1,7 @@
-package com.ecommerce.molla.models
+package com.ecommerce.molla.products
 
+import com.ecommerce.molla.brands.Brand
+import com.ecommerce.molla.categories.Category
 import javax.persistence.*
 
 @Entity

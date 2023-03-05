@@ -1,58 +1,56 @@
-package com.ecommerce.molla.services
+package com.ecommerce.molla.products
 
-import com.ecommerce.molla.models.Brand
-import com.ecommerce.molla.models.Category
-import com.ecommerce.molla.models.Product
-import com.ecommerce.molla.repositories.BrandRepository
-import com.ecommerce.molla.repositories.CategoryRepository
-import com.ecommerce.molla.repositories.ProductRepository
+import com.ecommerce.molla.brands.Brand
+import com.ecommerce.molla.categories.Category
+import com.ecommerce.molla.brands.BrandsRepository
+import com.ecommerce.molla.categories.CategoriesRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class ProductService(
-    private val productRepository: ProductRepository,
-    private val categoryRepository: CategoryRepository,
-    private val brandRepository: BrandRepository
+class ProductsService(
+    private val productsRepository: ProductsRepository,
+    private val categoriesRepository: CategoriesRepository,
+    private val brandsRepository: BrandsRepository
     ) {
-    fun getAllProducts(): List<Product> = productRepository.findAll();
+    fun getAllProducts(): List<Product> = productsRepository.findAll();
 
-    fun createProduct(product: Product): Product = productRepository.save(product);
+    fun createProduct(product: Product): Product = productsRepository.save(product);
 
     fun addCategory(id: Int, category: Category): ResponseEntity<Product> {
-        val product: Product = productRepository.findById(id).orElseThrow()
-        val categoryToFind: Optional<Category> = categoryRepository.findById(category.id)
+        val product: Product = productsRepository.findById(id).orElseThrow()
+        val categoryToFind: Optional<Category> = categoriesRepository.findById(category.id)
         return if(categoryToFind.isPresent) {
             product.categories.add(categoryToFind.get())
-            productRepository.save(product)
+            productsRepository.save(product)
             ResponseEntity<Product>(product, HttpStatus.CREATED)
         } else {
-            categoryRepository.save(category)
+            categoriesRepository.save(category)
             product.categories.add(category)
-            productRepository.save(product)
+            productsRepository.save(product)
             ResponseEntity<Product>(product, HttpStatus.CREATED)
         }
     }
 
     fun addBrand(id: Int, brand: Brand): ResponseEntity<Product> {
-        val product: Product = productRepository.findById(id).orElseThrow()
-        val brandToFind: Optional<Category> = categoryRepository.findById(brand.id)
+        val product: Product = productsRepository.findById(id).orElseThrow()
+        val brandToFind: Optional<Category> = categoriesRepository.findById(brand.id)
         return if(brandToFind.isPresent) {
             product.categories.add(brandToFind.get())
-            productRepository.save(product)
+            productsRepository.save(product)
             ResponseEntity<Product>(product, HttpStatus.CREATED)
         } else {
-            brandRepository.save(brand)
+            brandsRepository.save(brand)
             product.brands.add(brand)
-            productRepository.save(product)
+            productsRepository.save(product)
             ResponseEntity<Product>(product, HttpStatus.CREATED)
         }
     }
 
     fun updateProduct(id: Int, product: Product): Product {
-        val productToUpdate = productRepository.findById(id).orElseThrow()
+        val productToUpdate = productsRepository.findById(id).orElseThrow()
 
         productToUpdate.name = product.name
         productToUpdate.new = product.new
@@ -65,33 +63,33 @@ class ProductService(
         productToUpdate.slug = product.slug
         productToUpdate.sale_price = product.sale_price
 
-        productRepository.save(productToUpdate)
+        productsRepository.save(productToUpdate)
 
         return productToUpdate
     }
 
     fun deleteProduct(id: Int): Product {
-        val productToDelete = productRepository.findById(id).orElseThrow()
+        val productToDelete = productsRepository.findById(id).orElseThrow()
 
-        productRepository.deleteById(id)
+        productsRepository.deleteById(id)
 
         return productToDelete
     }
 
     fun deleteCategory(id: Int, categories: Category): ResponseEntity<Product> {
-        val product = productRepository.findById(id).orElseThrow()
+        val product = productsRepository.findById(id).orElseThrow()
 
         product.categories.remove(categories)
-        productRepository.save(product)
+        productsRepository.save(product)
 
         return ResponseEntity(product, HttpStatus.OK)
     }
 
     fun deleteBrand(id: Int, brands: Brand): ResponseEntity<Product> {
-        val product = productRepository.findById(id).orElseThrow()
+        val product = productsRepository.findById(id).orElseThrow()
 
         product.brands.remove(brands)
-        productRepository.save(product)
+        productsRepository.save(product)
 
         return ResponseEntity(product, HttpStatus.OK)
     }

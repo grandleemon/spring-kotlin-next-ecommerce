@@ -1,9 +1,7 @@
-package com.ecommerce.molla.controllers
+package com.ecommerce.molla.products
 
-import com.ecommerce.molla.models.Brand
-import com.ecommerce.molla.models.Category
-import com.ecommerce.molla.models.Product
-import com.ecommerce.molla.services.ProductService
+import com.ecommerce.molla.brands.Brand
+import com.ecommerce.molla.categories.Category
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,36 +14,36 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/v1/products")
-class ProductController(private val productService: ProductService) {
+class ProductsController(private val productsService: ProductsService) {
     @GetMapping
-    fun getAllProduct(): List<Product> = productService.getAllProducts()
+    fun getAllProduct(): List<Product> = productsService.getAllProducts()
 
     @PostMapping
-    fun createProduct(@RequestBody product: Product): Product = productService.createProduct(product)
+    fun createProduct(@RequestBody product: Product): Product = productsService.createProduct(product)
 
     @PostMapping("{id}/categories")
     fun addCategory(@PathVariable("id") id: Int, @RequestBody category: Category): ResponseEntity<Product> {
-        return productService.addCategory(id, category)
+        return productsService.addCategory(id, category)
     }
 
     @DeleteMapping("{id}/categories")
     fun deleteCategory(@PathVariable("id") id: Int, @RequestBody categories: Category): ResponseEntity<Product> {
-        return productService.deleteCategory(id, categories)
+        return productsService.deleteCategory(id, categories)
     }
 
     @PostMapping("{id}/brands")
     fun addBrand(@PathVariable("id") id: Int, @RequestBody brand: Brand): ResponseEntity<Product> {
-        return productService.addBrand(id, brand)
+        return productsService.addBrand(id, brand)
     }
 
     @DeleteMapping("{id}/brands")
     fun deleteBrand(@PathVariable("id") id: Int, @RequestBody brands: Brand): ResponseEntity<Product> {
-        return productService.deleteBrand(id, brands)
+        return productsService.deleteBrand(id, brands)
     }
 
     @PutMapping("/{id}")
-    fun updateProduct(@PathVariable("id") id: Int, @RequestBody product: Product): Product = productService.updateProduct(id, product)
+    fun updateProduct(@PathVariable("id") id: Int, @RequestBody product: Product): Product = productsService.updateProduct(id, product)
 
     @DeleteMapping("/{id}")
-    fun deleteProduct(@PathVariable("id") id: Int): Product = productService.deleteProduct(id)
+    fun deleteProduct(@PathVariable("id") id: Int): Product = productsService.deleteProduct(id)
 }

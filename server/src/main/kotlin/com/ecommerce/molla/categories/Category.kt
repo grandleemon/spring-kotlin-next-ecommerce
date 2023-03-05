@@ -1,4 +1,4 @@
-package com.ecommerce.molla.models
+package com.ecommerce.molla.categories
 
 import javax.persistence.*
 

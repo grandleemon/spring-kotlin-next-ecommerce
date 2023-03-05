@@ -1,4 +1,4 @@
-package com.ecommerce.molla.models
+package com.ecommerce.molla.brands
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
