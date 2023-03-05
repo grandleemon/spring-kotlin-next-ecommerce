@@ -2,6 +2,8 @@ package com.ecommerce.molla.products
 
 import com.ecommerce.molla.brands.Brand
 import com.ecommerce.molla.categories.Category
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
