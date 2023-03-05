@@ -22,7 +22,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web:2.7.9")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.9")
 	implementation("org.postgresql:postgresql:42.5.4")
+	implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("ch.qos.logback:logback-classic:1.2.11")
 }
 
 tasks.withType<KotlinCompile> {
