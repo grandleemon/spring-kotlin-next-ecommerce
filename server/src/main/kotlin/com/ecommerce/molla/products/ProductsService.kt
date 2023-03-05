@@ -15,12 +15,20 @@ class ProductsService(
     private val categoriesRepository: CategoriesRepository,
     private val brandsRepository: BrandsRepository
     ) {
-    fun getAllProducts(): List<Product> = productsRepository.findAll();
+    fun getAllProducts(): ResponseEntity<List<Product>> {
+        val products = productsRepository.findAll()
 
-    fun createProduct(product: Product): Product = productsRepository.save(product);
+        if(products.isEmpty()) return ResponseEntity(HttpStatus.NO_CONTENT)
+
+        return ResponseEntity(products, HttpStatus.OK)
+    };
+
+    fun createProduct(product: Product): ResponseEntity<Product> {
+        return ResponseEntity(productsRepository.save(product), HttpStatus.OK)
+    };
 
     fun addCategory(id: Int, category: Category): ResponseEntity<Product> {
-        val product: Product = productsRepository.findById(id).orElseThrow()
+        val product: Product = productsRepository.findById(id).orElseThrow{ RuntimeException("Not found Product with id = \"$id\"") }
         val categoryToFind: Optional<Category> = categoriesRepository.findById(category.id)
         return if(categoryToFind.isPresent) {
             product.categories.add(categoryToFind.get())
@@ -35,7 +43,7 @@ class ProductsService(
     }
 
     fun addBrand(id: Int, brand: Brand): ResponseEntity<Product> {
-        val product: Product = productsRepository.findById(id).orElseThrow()
+        val product: Product = productsRepository.findById(id).orElseThrow{ RuntimeException("Not found Product with id = \"$id\"") }
         val brandToFind: Optional<Category> = categoriesRepository.findById(brand.id)
         return if(brandToFind.isPresent) {
             product.categories.add(brandToFind.get())
@@ -49,8 +57,8 @@ class ProductsService(
         }
     }
 
-    fun updateProduct(id: Int, product: Product): Product {
-        val productToUpdate = productsRepository.findById(id).orElseThrow()
+    fun updateProduct(id: Int, product: Product): ResponseEntity<Product> {
+        val productToUpdate = productsRepository.findById(id).orElseThrow{ RuntimeException("Not found Product with id = \"$id\"") }
 
         productToUpdate.name = product.name
         productToUpdate.new = product.new
@@ -63,17 +71,13 @@ class ProductsService(
         productToUpdate.slug = product.slug
         productToUpdate.sale_price = product.sale_price
 
-        productsRepository.save(productToUpdate)
-
-        return productToUpdate
+        return ResponseEntity(productsRepository.save(productToUpdate), HttpStatus.OK)
     }
 
-    fun deleteProduct(id: Int): Product {
-        val productToDelete = productsRepository.findById(id).orElseThrow()
-
+    fun deleteProduct(id: Int): ResponseEntity<HttpStatus> {
         productsRepository.deleteById(id)
 
-        return productToDelete
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     fun deleteCategory(id: Int, categories: Category): ResponseEntity<Product> {
