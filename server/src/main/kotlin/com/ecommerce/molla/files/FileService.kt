@@ -3,12 +3,14 @@ package com.ecommerce.molla.files
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.nio.file.FileSystems
 import java.nio.file.Files
-import java.util.Optional
+import java.nio.file.Paths
+import kotlin.io.path.isRegularFile
 
 @Service
 class FileService(private val fileRepository: FileRepository) {
-//    val log = KotlinLogging.logger {}
+    //    val log = KotlinLogging.logger {}
 //
 //    val uploadsFolderPath: Path = Paths.get("src/main/resources/uploads")
 //
@@ -28,31 +30,33 @@ class FileService(private val fileRepository: FileRepository) {
 //            uploadedTargetFilePath.isRegularFile()
 //        }.onFailure {
 //            log.warn { "Error uploading file ${file.originalFilename} reason: ${it.javaClass}" }}
-
-    private val uploadsFolderPath = "D:\\Projects\\Molla - ecommerce\\server\\src\\main\\resources\\uploads\\"
+    private final val fileSeparator: String = FileSystems.getDefault().separator
+    private final val defaultUploadsFolderPath = "src" + fileSeparator + "main" + fileSeparator + "resources" + fileSeparator
+    private final val uploadsFolderPath = Paths.get("src/main/resources/static/images")
 
     fun uploadImageToFileSystem(file: MultipartFile): String {
-        val filePath = uploadsFolderPath + file.originalFilename
+//        val filePath = uploadsFolderPath + file.originalFilename
+        val uploadedTargetFilePath = uploadsFolderPath.resolve(file.originalFilename);
 
         fileRepository.save(
             UploadFile(
                 name = file.originalFilename,
                 type = file.contentType,
-                path = filePath
+                path = "static" + fileSeparator + "images" + fileSeparator + file.originalFilename
             )
         )
 
-        file.transferTo(File(filePath))
+        Files.copy(file.inputStream, uploadedTargetFilePath)
+        uploadedTargetFilePath.isRegularFile()
 
-        return "File uploaded successfully: $filePath"
+        return "File uploaded successfully: $uploadedTargetFilePath"
     }
 
     fun downloadFileFromFileSystem(fileName: String): ByteArray {
         val fileData = fileRepository.findByName(fileName)
 
         val filePath = fileData.get().path
-        val images = Files.readAllBytes(File(filePath).toPath())
 
-        return images
+        return Files.readAllBytes(File(defaultUploadsFolderPath + filePath).toPath())
     }
 }

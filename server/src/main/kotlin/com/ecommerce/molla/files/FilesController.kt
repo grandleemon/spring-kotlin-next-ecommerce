@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("/api/v1/files")
+@RequestMapping("/api/v1/static/images")
 class FilesController(private val fileService: FileService) {
 
 //    val log = KotlinLogging.logger {}
@@ -30,7 +30,7 @@ class FilesController(private val fileService: FileService) {
 //        }
 //    }
 
-    @PostMapping("/upload")
+    @PostMapping()
     fun uploadFileToFileSystem(@RequestParam("image") file: MultipartFile): ResponseEntity<String> {
         val uploadImage = fileService.uploadImageToFileSystem(file)
 
@@ -41,9 +41,6 @@ class FilesController(private val fileService: FileService) {
     fun downloadImageFromFileSystem(@PathVariable("fileName") fileName: String): ResponseEntity<ByteArray> {
         val imageData = fileService.downloadFileFromFileSystem(fileName)
 
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .contentType(MediaType.valueOf("image/png"))
-            .body(imageData)
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData)
     }
 }

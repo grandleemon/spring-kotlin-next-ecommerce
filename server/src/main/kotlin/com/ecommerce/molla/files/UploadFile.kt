@@ -1,5 +1,6 @@
 package com.ecommerce.molla.files
 
+import java.nio.file.Path
 import javax.persistence.*
 
 @Entity
