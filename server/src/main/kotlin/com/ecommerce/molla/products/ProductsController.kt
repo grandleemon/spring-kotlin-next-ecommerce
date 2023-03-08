@@ -2,14 +2,8 @@ package com.ecommerce.molla.products
 
 import com.ecommerce.molla.brands.Brand
 import com.ecommerce.molla.categories.Category
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("api/v1/products")
@@ -18,7 +12,7 @@ class ProductsController(private val productsService: ProductsService) {
     fun getAllProduct() = productsService.getAllProducts()
 
     @PostMapping
-    fun createProduct(@RequestBody product: Product) = productsService.createProduct(product)
+    fun createProduct(@RequestBody product: Product, @RequestParam("preview") previewImage: MultipartFile) = productsService.createProduct(product, previewImage)
 
     @PostMapping("{id}/categories")
     fun addCategory(@PathVariable("id") id: Int, @RequestBody category: Category) = productsService.addCategory(id, category)

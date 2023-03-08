@@ -4,16 +4,20 @@ import com.ecommerce.molla.brands.Brand
 import com.ecommerce.molla.categories.Category
 import com.ecommerce.molla.brands.BrandsRepository
 import com.ecommerce.molla.categories.CategoriesRepository
+import com.ecommerce.molla.files.FileRepository
+import com.ecommerce.molla.files.FileService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Service
 class ProductsService(
     private val productsRepository: ProductsRepository,
     private val categoriesRepository: CategoriesRepository,
-    private val brandsRepository: BrandsRepository
+    private val brandsRepository: BrandsRepository,
+    private val fileService: FileService
     ) {
     fun getAllProducts(): ResponseEntity<List<Product>> {
         val products = productsRepository.findAll()
@@ -23,8 +27,23 @@ class ProductsService(
         return ResponseEntity(products, HttpStatus.OK)
     };
 
-    fun createProduct(product: Product): ResponseEntity<Product> {
-        return ResponseEntity(productsRepository.save(product), HttpStatus.OK)
+    fun createProduct(product: Product, previewImage: MultipartFile): ResponseEntity<Product> {
+        val newProduct = Product(
+            name = product.name,
+            new = product.new,
+            brands = product.brands,
+            categories = product.categories,
+            price = product.price,
+            ratings = product.ratings,
+            review = product.review,
+            sale_price = product.sale_price,
+            sex = product.sex,
+            slug = product.slug,
+            sold = product.sold,
+            stock = product.stock,
+            preview = fileService.uploadImageToFileSystem(previewImage)
+        )
+        return ResponseEntity(productsRepository.save(newProduct), HttpStatus.OK)
     };
 
     fun addCategory(id: Int, category: Category): ResponseEntity<Product> {

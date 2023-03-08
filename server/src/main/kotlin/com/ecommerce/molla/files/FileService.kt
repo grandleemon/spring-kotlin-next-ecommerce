@@ -49,7 +49,7 @@ class FileService(private val fileRepository: FileRepository) {
         Files.copy(file.inputStream, uploadedTargetFilePath)
         uploadedTargetFilePath.isRegularFile()
 
-        return "File uploaded successfully: $uploadedTargetFilePath"
+        return "static" + fileSeparator + "images" + fileSeparator + file.originalFilename
     }
 
     fun downloadFileFromFileSystem(fileName: String): ByteArray {

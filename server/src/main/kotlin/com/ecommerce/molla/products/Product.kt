@@ -10,7 +10,7 @@ import javax.persistence.*
 data class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int,
+    val id: Int? = null,
     var name: String,
     var price: Int,
     var sale_price: Int,
@@ -21,6 +21,7 @@ data class Product (
     var new: Boolean,
     var slug: String,
     var sex: String,
+    val preview: String,
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
     @JoinTable(
