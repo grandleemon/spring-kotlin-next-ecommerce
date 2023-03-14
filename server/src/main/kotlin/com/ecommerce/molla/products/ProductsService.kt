@@ -31,7 +31,7 @@ class ProductsService(
 
     fun createProduct(product: String, preview: MultipartFile): ResponseEntity<Product> {
         val gson = Gson();
-        val parsedProduct: ProductDto = gson.fromJson(product, ProductDto::class.java)
+        val parsedProduct: Product = gson.fromJson(product, Product::class.java)
 
         val newProduct = Product(
             name = parsedProduct.name,
