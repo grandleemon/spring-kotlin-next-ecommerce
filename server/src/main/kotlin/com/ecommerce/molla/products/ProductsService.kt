@@ -6,6 +6,7 @@ import com.ecommerce.molla.brands.BrandsRepository
 import com.ecommerce.molla.categories.CategoriesRepository
 import com.ecommerce.molla.files.FileRepository
 import com.ecommerce.molla.files.FileService
+import com.google.gson.Gson
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -19,6 +20,7 @@ class ProductsService(
     private val brandsRepository: BrandsRepository,
     private val fileService: FileService
     ) {
+
     fun getAllProducts(): ResponseEntity<List<Product>> {
         val products = productsRepository.findAll()
 
@@ -27,22 +29,26 @@ class ProductsService(
         return ResponseEntity(products, HttpStatus.OK)
     };
 
-    fun createProduct(product: Product, previewImage: MultipartFile): ResponseEntity<Product> {
+    fun createProduct(product: String, preview: MultipartFile): ResponseEntity<Product> {
+        val gson = Gson();
+        val parsedProduct: ProductDto = gson.fromJson(product, ProductDto::class.java)
+
         val newProduct = Product(
-            name = product.name,
-            new = product.new,
-            brands = product.brands,
-            categories = product.categories,
-            price = product.price,
-            ratings = product.ratings,
-            review = product.review,
-            sale_price = product.sale_price,
-            sex = product.sex,
-            slug = product.slug,
-            sold = product.sold,
-            stock = product.stock,
-            preview = fileService.uploadImageToFileSystem(previewImage)
+            name = parsedProduct.name,
+            new = parsedProduct.new,
+            brands = parsedProduct.brands,
+            categories = parsedProduct.categories,
+            price = parsedProduct.price,
+            ratings = parsedProduct.ratings,
+            review = parsedProduct.review,
+            sale_price = parsedProduct.sale_price,
+            sex = parsedProduct.sex,
+            slug = parsedProduct.slug,
+            sold = parsedProduct.sold,
+            stock = parsedProduct.stock,
+            preview = fileService.uploadImageToFileSystem(preview)
         )
+
         return ResponseEntity(productsRepository.save(newProduct), HttpStatus.OK)
     };
 

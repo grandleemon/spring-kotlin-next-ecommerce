@@ -12,13 +12,16 @@ class ProductsController(private val productsService: ProductsService) {
     fun getAllProduct() = productsService.getAllProducts()
 
     @PostMapping
-    fun createProduct(@RequestBody product: Product, @RequestParam("preview") previewImage: MultipartFile) = productsService.createProduct(product, previewImage)
+    fun createProduct(@RequestParam("product") product: String, @RequestParam("preview") preview: MultipartFile) =
+        productsService.createProduct(product, preview)
 
     @PostMapping("{id}/categories")
-    fun addCategory(@PathVariable("id") id: Int, @RequestBody category: Category) = productsService.addCategory(id, category)
+    fun addCategory(@PathVariable("id") id: Int, @RequestBody category: Category) =
+        productsService.addCategory(id, category)
 
     @DeleteMapping("{id}/categories")
-    fun deleteCategory(@PathVariable("id") id: Int, @RequestBody categories: Category) = productsService.deleteCategory(id, categories)
+    fun deleteCategory(@PathVariable("id") id: Int, @RequestBody categories: Category) =
+        productsService.deleteCategory(id, categories)
 
     @PostMapping("{id}/brands")
     fun addBrand(@PathVariable("id") id: Int, @RequestBody brand: Brand) = productsService.addBrand(id, brand)
@@ -28,7 +31,8 @@ class ProductsController(private val productsService: ProductsService) {
 
 
     @PutMapping("/{id}")
-    fun updateProduct(@PathVariable("id") id: Int, @RequestBody product: Product) = productsService.updateProduct(id, product)
+    fun updateProduct(@PathVariable("id") id: Int, @RequestBody product: Product) =
+        productsService.updateProduct(id, product)
 
     @DeleteMapping("/{id}")
     fun deleteProduct(@PathVariable("id") id: Int) = productsService.deleteProduct(id)
