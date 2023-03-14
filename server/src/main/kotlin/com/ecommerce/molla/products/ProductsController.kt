@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("api/v1/products")
 class ProductsController(private val productsService: ProductsService) {
+    @CrossOrigin(origins = ["http://localhost:5173"])
     @GetMapping
     fun getAllProduct() = productsService.getAllProducts()
 
