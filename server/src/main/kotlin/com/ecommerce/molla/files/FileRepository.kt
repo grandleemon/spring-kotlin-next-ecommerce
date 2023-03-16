@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface FileRepository : JpaRepository<UploadFile, Int> {
-    fun findByName(fileName: String): Optional<UploadFile>
+interface FileRepository : JpaRepository<File, Int> {
+    fun findByName(fileName: String): Optional<File>
 }

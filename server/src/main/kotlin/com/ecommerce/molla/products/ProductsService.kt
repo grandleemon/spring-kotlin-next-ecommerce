@@ -99,10 +99,14 @@ class ProductsService(
         return ResponseEntity(productsRepository.save(productToUpdate), HttpStatus.OK)
     }
 
-    fun deleteProduct(id: Int): ResponseEntity<HttpStatus> {
+    fun deleteProduct(id: Int): ResponseEntity<String> {
+        val product = productsRepository.findById(id)
+
+        if(!product.isPresent) return ResponseEntity("Product with id: $id was not found.", HttpStatus.NOT_FOUND)
+
         productsRepository.deleteById(id)
 
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return ResponseEntity("Product with id: $id was successfully deleted.", HttpStatus.OK)
     }
 
     fun deleteCategory(id: Int, categories: Category): ResponseEntity<Product> {

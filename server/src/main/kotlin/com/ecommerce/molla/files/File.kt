@@ -1,10 +1,9 @@
 package com.ecommerce.molla.files
 
-import java.nio.file.Path
 import javax.persistence.*
 
 @Entity
-data class UploadFile(
+data class File(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = true)

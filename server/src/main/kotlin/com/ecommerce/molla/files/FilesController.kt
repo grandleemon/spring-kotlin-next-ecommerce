@@ -1,6 +1,5 @@
 package com.ecommerce.molla.files
 
-import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -16,26 +15,8 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/api/v1/static/images")
 class FilesController(private val fileService: FileService) {
 
-//    val log = KotlinLogging.logger {}
-//
-//    @PostMapping("/upload")
-//    fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseEntity<Response> {
-//        log.info { "Requested uploading file: ${file.originalFilename}" }
-//
-//        return when(fileService.upload(file).getOrDefault(false)) {
-//            true -> ResponseEntity.status(HttpStatus.OK).body(
-//                Response(message = "File upload successfully: ${file.originalFilename}"))
-//            else -> ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
-//                Response(message = "Error when trying to upload the file: ${file.originalFilename} !"))
-//        }
-//    }
-
     @PostMapping()
-    fun uploadFileToFileSystem(@RequestParam("image") file: MultipartFile): ResponseEntity<String> {
-        val uploadImage = fileService.uploadImageToFileSystem(file)
-
-        return ResponseEntity(uploadImage, HttpStatus.OK)
-    }
+    fun uploadFileToFileSystem(@RequestParam("image") file: MultipartFile) = fileService.uploadImageToFileSystem(file)
 
     @GetMapping("/{fileName}")
     fun downloadImageFromFileSystem(@PathVariable("fileName") fileName: String): ResponseEntity<ByteArray> {

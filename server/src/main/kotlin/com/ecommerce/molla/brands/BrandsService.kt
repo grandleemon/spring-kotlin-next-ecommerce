@@ -30,6 +30,6 @@ class BrandsService(private val brandsRepository: BrandsRepository) {
     fun deleteBrand(id: Int): ResponseEntity<HttpStatus> {
         brandsRepository.deleteById(id);
 
-        return ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity(HttpStatus.OK);
     }
 }

@@ -31,6 +31,6 @@ class CategoriesService(private val categoriesRepository: CategoriesRepository) 
     fun deleteCategory(id: Int): ResponseEntity<HttpStatus> {
         categoriesRepository.deleteById(id);
 
-        return ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity(HttpStatus.OK);
     }
 }
