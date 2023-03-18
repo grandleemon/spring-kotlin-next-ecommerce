@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("ch.qos.logback:logback-classic:1.2.11")
+	testImplementation("io.mockk:mockk:1.12.4")
 }
 
 tasks.withType<KotlinCompile> {
