@@ -6,19 +6,22 @@ import com.ecommerce.molla.brands.BrandsRepository
 import com.ecommerce.molla.categories.CategoriesRepository
 import com.ecommerce.molla.files.FileRepository
 import com.ecommerce.molla.files.FileService
+import com.ecommerce.molla.screenshots.ScreenshotsService
 import com.google.gson.Gson
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Service
 class ProductsService(
     private val productsRepository: ProductsRepository,
     private val categoriesRepository: CategoriesRepository,
     private val brandsRepository: BrandsRepository,
-    private val fileService: FileService
+    private val fileService: FileService,
+    private val screenshotsService: ScreenshotsService
     ) {
 
     fun getAllProducts(): ResponseEntity<List<Product>> {
@@ -33,6 +36,12 @@ class ProductsService(
         val gson = Gson();
         val parsedProduct: Product = gson.fromJson(product, Product::class.java)
 
+        val screenshots = ArrayList<String>();
+
+        for(screenshot in parsedProduct.screenshots) {
+            screenshots.add(sc)
+        }
+
         val newProduct = Product(
             name = parsedProduct.name,
             new = parsedProduct.new,
@@ -46,7 +55,8 @@ class ProductsService(
             slug = parsedProduct.slug,
             sold = parsedProduct.sold,
             stock = parsedProduct.stock,
-            preview = fileService.uploadImageToFileSystem(preview)
+            preview = fileService.uploadImageToFileSystem(preview),
+            screenshots = screenshotsService.uploadScreenshot(parsedProduct.screenshots)
         )
 
         return ResponseEntity(productsRepository.save(newProduct), HttpStatus.OK)

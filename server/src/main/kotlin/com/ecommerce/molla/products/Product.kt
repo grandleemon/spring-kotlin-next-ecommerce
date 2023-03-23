@@ -2,8 +2,10 @@ package com.ecommerce.molla.products
 
 import com.ecommerce.molla.brands.Brand
 import com.ecommerce.molla.categories.Category
+import com.ecommerce.molla.screenshots.Screenshot
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
@@ -22,6 +24,9 @@ data class Product (
     var slug: String,
     var sex: String,
     val preview: String,
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE], mappedBy = "")
+    val screenshots: ArrayList<Screenshot>,
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
     @JoinTable(
