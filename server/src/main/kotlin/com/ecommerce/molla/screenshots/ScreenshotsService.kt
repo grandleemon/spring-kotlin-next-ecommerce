@@ -12,7 +12,7 @@ class ScreenshotsService(private val screenshotsRepository: ScreenshotsRepositor
     private final val fileSeparator: String = FileSystems.getDefault().separator
     private final val uploadsFolderPath = Paths.get("src/main/resources/static/images")
 
-    fun uploadScreenshot(screenshots: ArrayList<MultipartFile>): ArrayList<Screenshot> {
+    fun uploadScreenshot(screenshots: List<MultipartFile>): List<Screenshot> {
         val screenshotsLinks = ArrayList<Screenshot>()
 
         for (screenshot in screenshots) {
@@ -25,11 +25,10 @@ class ScreenshotsService(private val screenshotsRepository: ScreenshotsRepositor
                 )
             )
 
-            val thisScreenshot = screenshotsRepository.findByName(screenshot.originalFilename).orElseThrow()
-
             Files.copy(screenshot.inputStream, uploadedTargetFilePath)
             uploadedTargetFilePath.isRegularFile()
 
+            val thisScreenshot = screenshotsRepository.findByName(screenshot.originalFilename).orElseThrow()
             screenshotsLinks.add(thisScreenshot)
         }
 

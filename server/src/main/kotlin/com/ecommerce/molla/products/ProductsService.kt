@@ -4,7 +4,6 @@ import com.ecommerce.molla.brands.Brand
 import com.ecommerce.molla.categories.Category
 import com.ecommerce.molla.brands.BrandsRepository
 import com.ecommerce.molla.categories.CategoriesRepository
-import com.ecommerce.molla.files.FileRepository
 import com.ecommerce.molla.files.FileService
 import com.ecommerce.molla.screenshots.ScreenshotsService
 import com.google.gson.Gson
@@ -32,15 +31,9 @@ class ProductsService(
         return ResponseEntity(products, HttpStatus.OK)
     };
 
-    fun createProduct(product: String, preview: MultipartFile): ResponseEntity<Product> {
+    fun createProduct(product: String, preview: MultipartFile, screenshots: List<MultipartFile>): ResponseEntity<Product> {
         val gson = Gson();
         val parsedProduct: Product = gson.fromJson(product, Product::class.java)
-
-        val screenshots = ArrayList<String>();
-
-        for(screenshot in parsedProduct.screenshots) {
-            screenshots.add(sc)
-        }
 
         val newProduct = Product(
             name = parsedProduct.name,
@@ -56,7 +49,7 @@ class ProductsService(
             sold = parsedProduct.sold,
             stock = parsedProduct.stock,
             preview = fileService.uploadImageToFileSystem(preview),
-            screenshots = screenshotsService.uploadScreenshot(parsedProduct.screenshots)
+            screenshots = screenshotsService.uploadScreenshot(screenshots)
         )
 
         return ResponseEntity(productsRepository.save(newProduct), HttpStatus.OK)

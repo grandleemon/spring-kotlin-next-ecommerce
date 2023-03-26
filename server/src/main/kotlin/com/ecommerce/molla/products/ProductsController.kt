@@ -13,8 +13,12 @@ class ProductsController(private val productsService: ProductsService) {
     fun getAllProduct() = productsService.getAllProducts()
 
     @PostMapping
-    fun createProduct(@RequestParam("product") product: String, @RequestParam("preview") preview: MultipartFile) =
-        productsService.createProduct(product, preview)
+    fun createProduct(
+        @RequestParam("product") product: String,
+        @RequestParam("preview") preview: MultipartFile,
+        @RequestParam("screenshots") screenshots: List<MultipartFile>
+    ) =
+        productsService.createProduct(product, preview, screenshots)
 
     @PostMapping("{id}/categories")
     fun addCategory(@PathVariable("id") id: Int, @RequestBody category: Category) =
