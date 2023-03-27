@@ -18,18 +18,18 @@ class ScreenshotsService(private val screenshotsRepository: ScreenshotsRepositor
         for (screenshot in screenshots) {
             val uploadedTargetFilePath = uploadsFolderPath.resolve(screenshot.originalFilename)
 
-            screenshotsRepository.save(
+            screenshotsLinks.add(screenshotsRepository.save(
                 Screenshot(
                     name = screenshot.originalFilename,
                     image = "static" + fileSeparator + "images" + fileSeparator + screenshot.originalFilename
                 )
-            )
+            ))
 
             Files.copy(screenshot.inputStream, uploadedTargetFilePath)
             uploadedTargetFilePath.isRegularFile()
 
-            val thisScreenshot = screenshotsRepository.findByName(screenshot.originalFilename).orElseThrow()
-            screenshotsLinks.add(thisScreenshot)
+//            val thisScreenshot = screenshotsRepository.findByName(screenshot.originalFilename).orElseThrow()
+
         }
 
         return screenshotsLinks

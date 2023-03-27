@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-@Table(name = "image2")
 data class Screenshot(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +12,7 @@ data class Screenshot(
     val name: String?,
     val image: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    val related_product: Product? = null
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "product_id")
+//    val related_product: Product? = null
 )
