@@ -10,9 +10,5 @@ data class Screenshot(
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Int? = null,
     val name: String?,
-    val image: String,
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "product_id")
-//    val related_product: Product? = null
+    val image: String
 )

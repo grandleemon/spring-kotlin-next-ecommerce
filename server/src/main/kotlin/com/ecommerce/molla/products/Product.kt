@@ -25,7 +25,7 @@ data class Product (
     var sex: String,
     val preview: String,
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     val screenshots: List<Screenshot>,
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])

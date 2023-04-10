@@ -21,7 +21,7 @@ class ScreenshotsService(private val screenshotsRepository: ScreenshotsRepositor
             screenshotsLinks.add(screenshotsRepository.save(
                 Screenshot(
                     name = screenshot.originalFilename,
-                    image = "static" + fileSeparator + "images" + fileSeparator + screenshot.originalFilename
+                    image = "static/images/" + screenshot.originalFilename
                 )
             ))
 
